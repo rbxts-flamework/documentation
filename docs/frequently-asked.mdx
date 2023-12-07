@@ -1,0 +1,16 @@
+---
+title: Frequently Asked
+---
+This is a compilation of frequently asked questions. If you have any question not listed here and you think it should be listed here, feel free to make a PR or ask in the roblox-ts discord.
+
+### When do I use [`OnInit`](./guides/lifecycle-events#OnInit) over [`OnStart`](./guides/lifecycle-events#OnStart)?
+You should prefer using `OnStart`, unless you need the unique behavior of `OnInit`.
+
+### Should I commit `flamework.build` into Git?
+No, this file is meant for storing information that Flamework needs inbetween compiles and is generally discarded if it can be.
+
+### Should I include `flamework.build` in my package?
+Yes, you should include the file whenever you publish your package.
+
+### Flamework cannot be built in a dirty environment.
+This error occurs whenever you attempt to compile Flamework with incremental mode enabled in a project that was not previously using Flamework. You should delete your `out` directory which will cause TypeScript to completely recompile your project.
