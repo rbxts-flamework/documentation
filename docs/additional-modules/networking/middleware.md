@@ -61,17 +61,15 @@ function randomChanceMiddleware<I extends Array<unknown>, O>(chances: number): N
 ```
 
 ## Using middleware
-To use a middleware, you simply register it in your createEvent/createFunction call as shown below.
+To use a middleware, you simply register it in your `createServer`/`createClient` call as shown below.
 
 ```ts
-export const GlobalEvents = Networking.createEvent<ServerEvents, ClientEvents>(
-	// server events
+export const Events = GlobalEvents.createServer(
 	{
-		myServerEvent: [randomChanceMiddleware(50)]
-	},
-	// client events
-	{
-		myClientEvent: [randomChanceMiddleware(25)]
+		// Inbound middleware, called by the receiver prior to firing any connections.
+		middleware: {
+			myServerEvent: [randomChanceMiddleware(50)],
+		}
 	}
 );
 ```

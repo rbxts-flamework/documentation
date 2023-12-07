@@ -3,11 +3,7 @@ title: Remote Functions
 ---
 RemoteFunctions are for two way communicates between the server and client. This means the sender is able to receive a response from the receiver.  Flamework's RemoteFunctions implementation use promises which allow you to avoid any dangerous yields, errors, etc. All requests have a timeout of 10 seconds.
 
-Flamework supports client->server->client requests *and* server->client->server requests because, internally, Flamework does not use Roblox's own RemoteFunctions which allows it to avoid the common (technical) pitfalls associated with client invocation.
-
-Example use cases:
-- Prompt
-- Request Data
+Whilst it is not recommended, Flamework does support `ServerToClient` remote functions. Flamework avoids common pitfalls by implementing timeouts and cancellation (such as a player leaving) using promises.
 
 ## Creation
 You can use the `Networking.createFunction` macro to create your network handler. This will contain all your events for both server and client and you can also configure your [middleware](./middleware).
@@ -15,18 +11,21 @@ You can use the `Networking.createFunction` macro to create your network handler
 ```ts
 import { Networking } from "@flamework/networking";
 
-// Client -> Server -> Client functions
-interface ServerFunctions {
+interface ClientToServerFunctions {
 	function(param1: string): number;
 }
 
-// Server -> Client -> Server functions
-interface ClientFunctions {
+interface ServerToClientFunctions {
 	function(param1: string): number;
 }
 
 // Returns an object containing a `server` and `client` field.
-export const GlobalFunctions = Networking.createFunction<ServerFunctions, ClientFunctions>();
+export const GlobalFunctions = Networking.createFunction<ClientToServerFunctions, ServerToClientFunctions>();
+
+// It is recommended that you create these in separate server/client files,
+// which will avoid exposing server configuration (including type guards) to the client.
+export const ServerFunctions = GlobalFunctions.createServer({ /* server config */ });
+export const ClientFunctions = GlobalFunctions.createClient({ /* client config */ });
 ```
 
 ## Using Functions

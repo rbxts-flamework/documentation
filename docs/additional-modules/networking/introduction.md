@@ -13,13 +13,12 @@ Flamework's networking is designed with ease of use and convenience in mind.
 - Automatic type guards
 	- Declare the event and let Flamework handle the rest ~~(except writing your code)~~!
 
-## Naming
-Networking events are named after the receiver. This means a `Client Event` is an event that the client will listen to while a `Server Event` is one that the server will listen to.
-
 ## Re-exporting
-After you've defined your networking events and/or functions, you'll want to re-export the `server` and `client` fields from both.
+After you've defined your networking events and/or functions, you'll want to export the created `server` and `client` objects in separate files.
 
-This is not necessary but is highly recommended as it improves the developer experience. If you use the [roblox-ts vscode extension](https://marketplace.visualstudio.com/items?itemName=roblox-ts.vscode-roblox-ts) then the intellisense will hide the server objects on the client and vice-versa.
+If you use the [roblox-ts vscode extension](https://marketplace.visualstudio.com/items?itemName=roblox-ts.vscode-roblox-ts) then the intellisense will hide the server objects on the client and vice-versa.
+
+This will also allow you to hide server-specific configuration (such as generated type guards or middleware) from the client, for additional security.
 
 ```ts
 // Assumes your GlobalEvents/GlobalFunctions object is in shared/networking.ts
@@ -27,10 +26,10 @@ import { GlobalEvents } from "shared/networking";
 import { GlobalFunctions } from "shared/networking";
 
 // client/networking.ts
-export const Events = GlobalEvents.client;
-export const Functions = GlobalFunctions.client;
+export const Events = GlobalEvents.createClient();
+export const Functions = GlobalFunctions.createClient();
 
 // server/networking.ts
-export const Events = GlobalEvents.server;
-export const Functions = GlobalFunctions.server;
+export const Events = GlobalEvents.createServer();
+export const Functions = GlobalFunctions.createServer();
 ```

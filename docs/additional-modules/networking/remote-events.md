@@ -3,11 +3,6 @@ title: Remote Events
 ---
 RemoteEvents are for one way communication between the server and client. You should use these when you do not need a response from the receiver.
 
-Example use cases:
-- Notifications
-- Interaction
-- Tools
-
 ## Creation
 You can use the `Networking.createEvent` macro to create your network handler. This will contain all your events for both server and client and you can also configure your [middleware](./middleware).
 
@@ -17,18 +12,21 @@ If you want two way communication then you should use [RemoteFunctions](./remote
 ```ts
 import { Networking } from "@flamework/networking";
 
-// Client -> Server events
-interface ServerEvents {
+interface ClientToServerEvents {
 	event(param1: string): void;
 }
 
-// Server -> Client events
-interface ClientEvents {
+interface ServerToClientEvents {
 	event(param1: string): void;
 }
 
 // Returns an object containing a `server` and `client` field.
-export const GlobalEvents = Networking.createEvent<ServerEvents, ClientEvents>();
+export const GlobalEvents = Networking.createEvent<ClientToServerEvents, ServerToClientEvents>();
+
+// It is recommended that you create these in separate server/client files,
+// which will avoid exposing server configuration (including type guards) to the client.
+export const ServerEvents = GlobalEvents.createServer({ /* server config */ });
+export const ClientEvents = GlobalEvents.createClient({ /* client config */ });
 ```
 
 ## Using Events
@@ -79,14 +77,6 @@ The following example is assuming the code is run on the server. Connecting even
 Events.event.connect((player, arg1) => {
 	print(player, arg1);
 });
-
-// Narrow this event connection
-// (Warning) This may be replaced with a more versatile macro in the future.
-Events.event.connect((player, arg1: "ThisString" | "AnotherString") => {
-	if (arg1 !== "ThisString" && arg1 !== "AnotherString") {
-		// This will never run!
-	}
-})
 
 // Disconnect an event connection
 const myConnection = events.event.connect(() => {});
