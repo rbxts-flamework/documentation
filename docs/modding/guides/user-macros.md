@@ -1,33 +1,44 @@
 ---
 title: User Macros
 ---
-User macros are custom Flamework-style macros that can be defined by user code. They allow you to tap into metadata about type parameters and the call site.
+User macros are macros that can be defined by user code. They allow you to tap into metadata about type parameters and the call site.
 
 ## Defining a user macro
-You define a macro simply by using the `@metadata macro` jsdoc and using one of Flamework's utility types as a parameter. You can also pass down generics from other user macros into this macro by passing a Modding.Generic/Caller with the necessary metadata.
+You define a macro simply by using the `@metadata macro` tag and using one of Flamework's macro types as a parameter.
 
-This can be defined on methods, classes (for `new A()`) and is also supported everywhere that the `@metadata` tag is, e.g in lifecycle events.
+User macros can be defined on classes (constructors), methods, and plain functions.
+
+If you'd like users to be able to pass arguments to a macro argument, you are able to use a union.
+Whenever Flamework encounters a macro argument with a union, it will use the first macro type it encounters, or ignore the argument if a user has passed one.
+
+Certain Flamework macros use this behavior to allow users to pass strings where Flamework would otherwise generate an ID, such as `id?: string | Modding.Generic<T, "id">`.
+
 ```ts
 /** @metadata macro */
-function macro<T>(abc?: Modding.Generic<T, "id">, xyz?: Modding.Caller<"line" | "char">) {
+function macro<T>(abc?: Modding.Generic<T, "id">, xyz?: Modding.CallerMany<"line" | "char">) {
 	assert(abc && xyz);
 
-	print(abc.id, `${xyz.line}:${xyz.char}`);
+	print(abc, `${xyz.line}:${xyz.char}`);
 }
 
 macro<MyInterface>();
 ```
 
 ## Nesting user macros
-If you have a user macro that you'd like to call from within another user macro, you can pass down the `Modding.Generic/Caller` objects as long as they have the necessary metadata.
+If you have a user macro that you'd like to call from within another user macro, you will need to include the macro's metadata in your signature, and pass it down.
+
+With `Modding.GenericMany` and `Modding.CallerMany`, you can include additional metadata and it can still be passed down.
+For more complex macros, it is recommended to export your macro's metadata so that consumers can use your macro in their own.
+
 ```ts
-/** @metadata macro */
-function baseMacro<T>(abc?: Modding.Generic<T, "id">) {}
+type BaseMacroMetadata<T> = Modding.GenericMany<T, "id" | "text">;
 
 /** @metadata macro */
-function newMacro<T>(param: string, abc?: Modding.Generic<T, "id" | "text">) {
-	// do something with abc.text
-	return baseMacro<T>(abc);
+function baseMacro<T>(abc?: BaseMacroMetadata<T>) {}
+
+/** @metadata macro */
+function newMacro<T>(param: string, macro?: BaseMacroMetadata<T>) {
+	return baseMacro<T>(macro);
 }
 ```
 
@@ -42,7 +53,6 @@ I've provided a list of syntax that you can use, but it is not exhaustive and Fl
 
 In libraries, it is recommended that you specify macro metadata in an interface and expose it publicly.
 This allows users to easily nest your macro inside of their own.
-This can be an interface or a type alias, but remember to only use `Modding.Many` under the actual macro.
 
 ```ts
 export interface DoSomethingMacro<T> {}
@@ -102,31 +112,64 @@ This behaves identically to `Modding.Hash` except it is only enabled when Flamew
 This retrieves the labels of a tuple and can be used in conjunction with `Parameters<T>` to retrieve parameter names from a function type.
 
 ## Generic Metadata
-You can access generic metadata by using `Modding.Generic<T, M>`. `T` does not have to be a type parameter and could contain any type, e.g `keyof T` or `{ [k in keyof T]: string }`.
+Generic metadata exposes some built-in Flamework functions for types, such as guard generation and ID generation.
+The input does not have to be a type parameter, and you can use it on any types, such as a mapped type.
 
-### id
-The ID of the `T`.
+This metadata can be accessed through `Modding.Generic<T, M>` where `T` is the target type, and `M` is a string literal for the name of the metadata.
 
-### guard
-An automatically generated type guard for `T`. This function is also typed as `t.check<T>` meaning you can use it without casting.
+Whilst `Modding.Generic` can only retrieve one metadata at a time, `Modding.GenericMany` can generate an object given a union of metadata, e.g `"id" | "text"`.
 
-### text
-The text equivalent of `T`.
+```ts
+interface GenericMetadata<T> {
+	/**
+	 * The ID of the type.
+	 */
+	id: string;
+
+	/**
+	 * A string equivalent of the type, such as the one displayed in your code editor.
+	 */
+	text: string;
+
+	/**
+	 * A generated guard for the type.
+	 */
+	guard: t.check<T>;
+}
+```
 
 ## Callsite Metadata
 You can access callsite metadata by using `Modding.Caller<M>`. Metadata about the source text ignores leading and trailing trivia.
 
-### line
-The line number that this call is on, starting at 1.
+Whilst `Modding.Caller` can only retrieve one metadata at a time, `Modding.CallerMany` can generate an object given a union of metadata, e.g `"line" | "character"`.
 
-### char
-The character that this call is on, starting at 1.
+```ts
+	interface CallerMetadata {
+		/**
+		 * The starting line of the expression.
+		 */
+		line: number;
 
-### width
-The length of the expression's text.
+		/**
+		 * The char at the start of the expression relative to the starting line.
+		 */
+		character: number;
 
-### text
-The text of the expression.
+		/**
+		 * The width of the expression.
+		 * This includes the width of multiline statements.
+		 */
+		width: number;
 
-### uuid
-A randomly generated universally unique identifier. This can be used to identify a specific callsite.
+		/**
+		 * A unique identifier that can be used to identify exact callsites.
+		 * This can be used for hooks.
+		 */
+		uuid: string;
+
+		/**
+		 * The source text for the expression.
+		 */
+		text: string;
+	}
+```

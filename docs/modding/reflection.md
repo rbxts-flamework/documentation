@@ -52,18 +52,5 @@ function Reflect.getProperties(obj: object): string[]
 ```
 This function gets the name of every property which has metadata attached.
 
-### Reflect.idToObj / Reflect.objToId
-```ts
-const idToObj: Map<string, object>
-const objToId: Map<object, string>
-```
-These are lookup tables for mapping a constructor to an identifier and vice-versa. These are automatically populated by Flamework and should not be mutated.
-
-### Reflect.decorators
-```ts
-const decorators: Map<string, Array<object>>
-```
-This is a lookup table which tracks the usage of decorators. You should use `Modding.getDecorators` instead of this API.
-
 ## `identifier`
-The Reflect library treats `identifier` differently from other metadata. It populates `Reflect.idToObj` and `Reflect.objToId` as well as verifies uniqueness. You should not assign this manually as Flamework will assign it automatically.
+The Reflect library treats `identifier` differently from other metadata. It populates some lookup maps, such as `Modding.getObjectFromId`, and also guarantees uniqueness. You should not assign this manually as Flamework will assign it automatically.

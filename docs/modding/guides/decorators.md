@@ -3,6 +3,8 @@ title: Decorators
 ---
 This guide is for creating a custom decorator.
 
+It is recommended to use native roblox-ts decorators unless you need Flamework behavior, such as access to the modding decorator APIs.
+
 ## Defining the decorator
 Flamework has two kinds of decorators, meta decorators and normal decorators.
 

@@ -27,17 +27,16 @@ const mySingleton = Dependency<MySingleton>();
 ```
 
 ## Ensuring the singletons always load
-Flamework will only create and manage singletons *if* they're requested, however, this may not be ideal as your singleton might not be explicitly used anywhere. If you want your singletons to always be created, you can use `Modding.resolveSingleton` to create them manually.
+Flamework will only create and manage singletons *if* they're requested, however, this may not be ideal as your singleton might not be explicitly used anywhere.
+
+If you want your singletons to always be created, you can use the `flamework:singleton` metadata to tell Flamework to load it automatically. You can define this inside of your Flamework decorator.
 
 ```ts
-@Service()
-export class SingletonService implements OnStart {
-	onStart() {
-		const constructors = Modding.getDecorators<typeof Singleton>();
-		for (const { object } of constructors) {
-			// Create the singleton manually.
-			Modding.resolveSingleton(object);
-		}
-	}
-}
+/**
+ * Request the required metadata for lifecycle events and dependency resolution.
+ * @metadata flamework:implements flamework:parameters
+ */
+export const Singleton = Modding.createDecorator("Class", (descriptor) => {
+	Reflect.defineMetadata(descriptor.object, "flamework:singleton", true);
+});
 ```

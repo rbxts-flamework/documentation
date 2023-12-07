@@ -7,9 +7,9 @@ This page explains Flamework's metadata system as well as the various metadata F
 If there is metadata that you'd like Flamework to generate but it currently doesn't, feel free to open an issue on the [Flamework repo](https://github.com/rbxts-flamework/core/issues).
 
 ## Why do I have to specify metadata?
-One of Flamework's major goals is to be built upon. Flamework uses a lot of information *only* available during compilation which is used to simplify user written code and allowing users to request metadata allows **you** to build upon the same systems that Flamework itself does.
+One of Flamework's major goals is to be built upon. To achieve this, Flamework exposes lots of compile-time information to your code, but this metadata can add a lot of bloat if it is unused.
 
-Flamework cannot emit all the metadata it possesses because it would bloat files with tons of unused metadata and some metadata requires code to be written in a specific way. For example, Flamework cannot generate IDs for object literal types, union types, etc however some metadata depends on that and will throw a diagnostic if it cannot be generated.
+Specifying the metadata allows Flamework to generate as little bloat as possible, as you only generate what your code requires.
 
 ## How do I request metadata?
 
