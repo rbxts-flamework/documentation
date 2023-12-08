@@ -2,7 +2,7 @@
 title: Metadata
 ---
 
-This page explains Flamework's metadata system as well as the various metadata Flamework exposes. If you'd like to use the metadata Flamework generates, see the [Reflect api](./reflect).
+This page explains Flamework's metadata system as well as the various metadata Flamework exposes. If you'd like to use the metadata Flamework generates, see the [Reflect api](./reflection).
 
 If there is metadata that you'd like Flamework to generate but it currently doesn't, feel free to open an issue on the [Flamework repo](https://github.com/rbxts-flamework/core/issues).
 

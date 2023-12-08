@@ -1,6 +1,6 @@
 ---
 title: Introduction
-slug: /flamework/modding
+slug: /modding
 ---
 
 Flamework is designed to be extensible and allows you to build upon the Flamework transformer which powers the default packages.

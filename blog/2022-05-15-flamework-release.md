@@ -10,14 +10,14 @@ authors: fireboltofdeath
 - Added support for decorators on fields.
 - Union guard generation ignores symbol types.
 - [Added configuration option to change how IDs are generated.](#id-generation)
-- [Added compile-time metadata](/docs/flamework/modding/metadata)
+- [Added compile-time metadata](/docs/modding/metadata)
 - [Added user macros](#user-macros)
 
 ### Core
 - `Flamework.implements<T>()` no longer narrows constructors into T.
 - Flamework's lifecycle events now use the roblox-ts extensions `@hideinherited` tag.
 - OnInit and OnStart will use separate memory categories per singleton.
-- [Added support for modding.](/docs/flamework/modding)
+- [Added support for modding.](/docs/modding)
 
 ### Components
 - <span style={{color: "crimson"}}>[BREAKING]</span> Components no longer call <code>super.onStart()</code> implicitly.
@@ -42,7 +42,7 @@ authors: fireboltofdeath
 ## Changes
 
 ### User Macros
-More specific documentation is available in [the modding documentation.](/docs/flamework/modding/guides/user-macros)
+More specific documentation is available in [the modding documentation.](/docs/modding/guides/user-macros)
 
 Flamework now allows users to define Flamework-style macros which can tap into metadata about type parameters or the callsite.
 ```ts
