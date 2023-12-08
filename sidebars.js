@@ -42,6 +42,7 @@ const sidebars = {
 						'additional-modules/networking/remote-events',
 						'additional-modules/networking/remote-functions',
 						'additional-modules/networking/middleware',
+						'additional-modules/networking/global-handlers'
 					],
 				},
 				{
