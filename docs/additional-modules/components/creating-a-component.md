@@ -56,3 +56,18 @@ export class MyComponent extends BaseComponent<{}, MyComponentInstance> implemen
 	}
 }
 ```
+
+## Component Dependencies
+Flamework supports inter-component dependencies using dependency injection.
+This only works for components attached to the same instance.
+
+Flamework will wait until any component dependencies have been added before creating your component.
+
+```ts
+class MyComponent extends BaseComponent {}
+
+// MyOtherComponent will not be created until MyComponent is
+class MyOtherComponent extends BaseComponent {
+	constructor(private myComponent: MyComponent) {}
+}
+```
