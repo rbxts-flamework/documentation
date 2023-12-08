@@ -15,6 +15,40 @@ This only affects Components created via **CollectionService**!
 export class ExampleComponent extends BaseComponent implements OnStart {}
 ```
 
+## Streaming
+Flamework components support `StreamingEnabled` and will try to ensure that instances are fully loaded in before a component is initialized.
+If you need to change Flamework's streaming behavior, you can do so with the `streamingMode` configuration.
+
+```ts
+export enum ComponentStreamingMode {
+	/**
+	 * This disables instance guard streaming, and will only run the instance guard once.
+	 */
+	Disabled,
+
+	/**
+	 * This will watch for any changes to the instance tree, and rerun the instance guards.
+	 */
+	Watching,
+
+	/**
+	 * This determines the appropriate streaming mode based on a couple of factors.
+	 *
+	 * If on the server, this will always behave like `Disabled`.
+	 *
+	 * If on the client, and the attached instance is an `Atomic` model, this will behave like `Disabled`.
+	 *
+	 * Otherwise, this behaves like `Watching`.
+	 */
+	Contextual,
+
+	/**
+	 * This is equivalent to {@link ComponentStreamingMode.Contextual Contextual}.
+	 */
+	Default = Contextual,
+}
+```
+
 ## Instance Guard
 The `instanceGuard` is similar to `predicate`, but serves a slightly different purpose.
 
@@ -84,4 +118,41 @@ interface Attributes {
     refreshAttributes: false
 } )
 export class ExampleComponent extends BaseComponent<Attributes, Part> implements OnStart {}
+```
+
+## Ancestor Whitelist/Blacklist
+Flamework components, by default, will ignore all instances under `ServerStorage`, `ReplicatedStorage`, `StarterPack`, `StarterGui`, and `StarterPlayer`.
+It is possible to override this default behavior using the `ancestorBlacklist` and `ancestorWhitelist` component configuration.
+
+When a whitelist is provided, the component will only be created under the services specified. This also takes priority over the ancestor blacklist, effectively disabling any blacklist (including the default one listed above.)
+
+When a blacklist is provided, the component will not be created under the services specified.
+
+Ancestor configuration only affects `CollectionService` components and will not affect the scripting API.
+
+```ts
+@Component({
+    tag: "ExampleComponent",
+    ancestorBlacklist: [Lighting],
+    ancestorWhitelist: [Workspace],
+})
+export class ExampleComponent extends BaseComponent {}
+```
+
+## Yield Warning
+Flamework will warn after five seconds if a component cannot be attached to an instance (e.g if its instance guard does not pass.)
+
+Generally, you will only encounter this warning when something has gone wrong (your instance is missing vital descendants, for example) but sometimes, you intend for components to not immediately be created, in which case you can configure the warning timeout using the `warningTimeout` configuration.
+
+```ts
+@Component({
+    tag: "ExampleComponent",
+
+    // Disable the warning entirely.
+    warningTimeout: 0,
+
+    // Warn only after 60 seconds have passed.
+    warningTimeout: 60,
+})
+export class ExampleComponent extends BaseComponent {}
 ```
