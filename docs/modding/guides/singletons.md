@@ -40,3 +40,21 @@ export const Singleton = Modding.createDecorator("Class", (descriptor) => {
 	Reflect.defineMetadata(descriptor.object, "flamework:singleton", true);
 });
 ```
+
+## Specifying your singleton load order
+Whilst it is [not recommended](../../guides/creating-a-singleton.md#load-order), you can specify a custom load order using the `flamework:loadOrder` metadata.
+
+```ts
+interface SingletonConfig {
+	loadOrder?: number;
+}
+
+/**
+ * Request the required metadata for lifecycle events and dependency resolution.
+ * @metadata flamework:implements flamework:parameters
+ */
+export const Singleton = Modding.createDecorator<[SingletonConfig]>("Class", (descriptor, [config]) => {
+	Reflect.defineMetadata(descriptor.object, "flamework:singleton", true);
+	Reflect.defineMetadata(descriptor.object, "flamework:loadOrder", config.loadOrder);
+});
+```
