@@ -42,18 +42,12 @@ const config = {
 				docs: {
 
 					sidebarPath: './sidebars.js',
-					// Please change this to your repo.
-					// Remove this to remove the "edit this page" links.
-					editUrl:
-						'https://github.com/rbxts-flamework/documentation/',
+					editUrl: 'https://github.com/rbxts-flamework/documentation/tree/master/',
 				},
 				blog: {
 					showReadingTime: true,
-					// Please change this to your repo.
-					// Remove this to remove the "edit this page" links.
 					blogSidebarCount: 3,
-					editUrl:
-						'https://github.com/rbxts-flamework/documentation/',
+					editUrl: 'https://github.com/rbxts-flamework/documentation/tree/master/',
 				},
 				theme: {
 					customCss: './src/css/custom.css',
