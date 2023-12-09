@@ -13,9 +13,10 @@ description: An introduction into Flamework
 
 ## Why should I use it?
 
+- It is [extensible](/docs/modding), giving you access to APIs that are not possible in vanilla roblox-ts.
 - It automatically generates type guards for your [networking code](/docs/additional-modules/networking/introduction) and [components](/docs/additional-modules/components/creating-a-component).
 - It has non-obtrusive [lifecycle events](/docs/guides/lifecycle-events), easy to opt-in to, but entirely optional.
-- It supports [dependency injection](/docs/guides/dependencies) via [constructor](/docs/guides/dependencies#dependency-injection) or via a [macro](/docs/guides/dependencies#dependency-macro).
+- It supports constructor [dependency injection](/docs/guides/dependencies).
 - It's designed to be extended, via the [modding API](/docs/modding).
 - It splits parts of Flamework into several packages, so you only need to install what you wish to use.
 - It's designed to minimize boilerplate and preserve simplicity.
