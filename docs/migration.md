@@ -19,8 +19,8 @@ You must now use `addPathsGlob` which will run the path directly through the glo
 Flamework now matches files by default, and you must specify directory matching in the glob (using a trailing `/`).
 This means if you used the glob `src/*/server`, you must now use `src/*/server/` to match only directories.
 
-2. Replace `addPaths({ glob: "file" }, "path")` with `addPathsGlob("path")`
-3. Replace `addPaths("path")` or `addPaths({ glob: "directory" }, "path")` with `addPathsGlob("path/")`
+1. Replace `addPaths({ glob: "file" }, "path")` with `addPathsGlob("path")`
+2. Replace `addPaths("path")` or `addPaths({ glob: "directory" }, "path")` with `addPathsGlob("path/")`
 
 ## Networking
 These are migration steps for `@flamework/networking`
