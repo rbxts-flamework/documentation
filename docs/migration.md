@@ -2,70 +2,88 @@
 title: Migration
 ---
 
-# Migrating to the beta
-If you have an existing codebase that you want to migrate to the Flamework beta, you can follow these instructions.
+# Migrating to 1.0.0
+This document summarizes some breaking changes that were made during the Flamework 1.0 release.
+
+This document will only detail larger breaking changes, it is still recommended that you read the full [release notes](/blog/2023/12/18/flamework-release) before migrating.
 
 If you do not have an existing codebase, please refer to [the installation guide](/docs/installation).
 
-## Uninstall old Flamework
-You should uninstall the @rbxts/flamework module as it is no longer used.
-```bash
-npm uninstall @rbxts/flamework
+## Core
+These are migration steps for `@flamework/core`
+
+### Glob `addPaths` has been replaced with `addPathsGlob`
+Previously, you could use globs under the `addPaths` function and it'd match all directories that matched the given glob.
+You must now use `addPathsGlob` which will run the path directly through the glob.
+
+Flamework now matches files by default, and you must specify directory matching in the glob (using a trailing `/`).
+This means if you used the glob `src/*/server`, you must now use `src/*/server/` to match only directories.
+
+1. Replace `addPaths({ glob: "file" }, "path")` with `addPathsGlob("path")`
+2. Replace `addPaths("path")` or `addPaths({ glob: "directory" }, "path")` with `addPathsGlob("path/")`
+
+## Networking
+These are migration steps for `@flamework/networking`
+
+### Revised networking setup
+Flamework no longer specifies configuration in the shared networking file, and you must now configure networking on the server and client individually.
+
+1. Replace `GlobalEvents.server` and `GlobalEvents.client` with `GlobalEvents.createServer({})` and `GlobalEvents.createClient({})` respectively.
+2. You must move your config from `shared/networking.ts` to `server/networking.ts` and `client/networking.ts` (or your respective files).
+
+```ts
+// `createEvent`/`createFunction` no longer accepts configuration.
+const GlobalEvents = Networking.createEvent<Server, Client>();
+
+const Events = GlobalEvents.createServer({ /* server config */ })
+const Events = GlobalEvents.createClient({ /* client config */ })
 ```
 
-## Update your transformer
-```bash
-npm i -D rbxts-transformer-flamework@latest
+### Networking failure events are now under `GlobalEvents`
+These were previously exposed under the `Networking` namespace, but they are now under the individual `GlobalEvents` API.
+
+These updated events also pass an object containing the event information as opposed to multiple arguments.
+Refer to the [documentation](./additional-modules/networking/global-handlers.md) for additional information.
+
+1. Replace `Networking.registerNetworkHandler("name", callback)` with `GlobalEvents.registerHandler("name", callback)`
+2. The handlers now only pass 2 parameters: the player and the specific event's information object
+
+```ts
+// `createEvent`/`createFunction` no longer accepts configuration.
+const GlobalEvents = Networking.createEvent<Server, Client>();
+
+GlobalEvents.registerHandler("onBadRequest", (player) => print(player, "sent a bad request!"));
+GlobalEvents.registerHandler("onBadResponse", (player) => print(player, "returned a bad response!"));
 ```
 
-## Install new Flamework packages
-The networking and components modules of Flamework have been split into separate packages. These are not required to be installed, unless you are currently using them.
-```bash
-npm i @flamework/core
-npm i @flamework/networking # optional
-npm i @flamework/components # optional
-```
+## Components
+These are migration steps for `@flamework/components`
 
-## Configuring the @flamework org
-Flamework uses a custom npm org to host its packages, which requires additional configuration.
+### Component maids were removed
+Components no longer include a maid by default.
 
-### Configure tsconfig.json
-You'll need to add the @flamework scope to your typeRoots.
+If you'd like to replace the previous behavior, you can create a new `DisposableComponent` and use that for components instead of `BaseComponent`.
+You can replace maid with the cleanup solution of your choosing.
 
-```json
-typeRoots: ["node_modules/@rbxts", "node_modules/@flamework"]
-```
+```ts
+export class DisposableComponent<A = {}, I extends Instance = Instance> extends BaseComponent<A, I> {
+	protected maid = new Maid();
 
-### Configure default.project.json
+	override destroy() {
+		this.maid.Destroy();
 
-Find the following json inside your `default.project.json`
-```json
-"node_modules": {
-	"$path": "node_modules/@rbxts"
-}
-```
-
-After you've found it, you'll want to replace it with the following json.
-```json
-"node_modules": {
-	"$path": "node_modules/@rbxts",
-	"@flamework": {
-		"$path": "node_modules/@flamework"
+		// You must still call BaseComponent's destructor!
+		super.destroy();
 	}
 }
 ```
 
-## Fixing your imports
-Since Flamework is no longer a single package, you'll have to locate all imports and reimport from the correct module(s).
+## Modding
+These are migration steps for the `@flamework/core` modding API.
 
-```ts
-// previous
-import { Component, BaseComponent, Flamework } from "@rbxts/flamework";
+### `Modding.Generic` and `Modding.Caller` can only emit a single type of metadata
+These APIs now only generate a single type of metadata (e.g `Modding.Generic<T, "guard">` will now compile directly to `t.string` instead of an object).
 
-// new
-import { Flamework } from "@flamework/core";
-import { Component, BaseComponent } from "@flamework/components";
-```
+Flamework exposes backwards compatible APIs, but you should consider using the new APIs when possible.
 
-## Recompiling
-Whenever updating/changing any Flamework packages or the transformer, you should always do a full recompile by deleting your `out` directory. Not doing a full recompile could result in undefined behavior.
+1. Replace any existing usages with the backwards compatible `Modding.GenericMany` or `Modding.CallerMany` APIs.
