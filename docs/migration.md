@@ -5,7 +5,7 @@ title: Migration
 # Migrating to 1.0.0
 This document summarizes some breaking changes that were made during the Flamework 1.0 release.
 
-This document will only detail larger breaking changes, it is still recommended that you read the full [release notes](/blog/2023/09/29/flamework-release) before migrating.
+This document will only detail larger breaking changes, it is still recommended that you read the full [release notes](/blog/2023/12/18/flamework-release) before migrating.
 
 If you do not have an existing codebase, please refer to [the installation guide](/docs/installation).
 
