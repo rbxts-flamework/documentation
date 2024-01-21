@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkflamework=self.webpackChunkflamework||[]).push([[205],{3672:e=>{e.exports=JSON.parse('{"label":"Release","permalink":"/blog/tags/release","allTagsPath":"/blog/tags","count":4,"unlisted":false}')}}]);
