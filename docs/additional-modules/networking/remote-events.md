@@ -29,6 +29,18 @@ export const ServerEvents = GlobalEvents.createServer({ /* server config */ });
 export const ClientEvents = GlobalEvents.createClient({ /* client config */ });
 ```
 
+### Unreliable Events
+Flamework supports specifying [unreliable remote events](https://create.roblox.com/docs/reference/engine/classes/UnreliableRemoteEvent).
+These events must still follow any limits specified by Roblox (e.g the 900 byte size limit.)
+
+You can specify that an event is unreliable using the `Networking.Unreliable` type.
+
+```ts
+interface ClientToServerEvents {
+	myUnreliableEvent: Networking.Unreliable<(param1: string) => void>;
+}
+```
+
 ## Using Events
 Once you've declared all your events, it's time to use them. You can access your events simply by indexing the [Events](./introduction#re-exporting) object.
 

@@ -43,7 +43,8 @@ const sidebars = {
 						'additional-modules/networking/remote-functions',
 						'additional-modules/networking/configuration',
 						'additional-modules/networking/middleware',
-						'additional-modules/networking/global-handlers'
+						'additional-modules/networking/global-handlers',
+						'additional-modules/networking/namespaces'
 					],
 				},
 				{

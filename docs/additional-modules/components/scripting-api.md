@@ -51,3 +51,13 @@ print("interactable components:", components.getComponents<OnInteract>(Workspace
 // Getting all components that extend a BaseEnemy class.
 print("enemies:", components.getAllComponents<BaseEnemy>());
 ```
+
+## Listening for components
+You can use the `onComponentAdded` and `onComponentRemoved` APIs to listen for when certain components are added or removed.
+
+These methods both support polymorphism, which means you can match based on interfaces or superclasses (such as `OnInteract` and `BaseEnemy`.)
+
+```ts
+components.onComponentAdded<OnInteract>((value) => print("Interactable component was added!"));
+components.onComponentRemoved<BaseEnemy>((value) => print("An enemy was removed!"));
+```
