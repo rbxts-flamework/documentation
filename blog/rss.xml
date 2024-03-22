@@ -4,10 +4,51 @@
         <title>Flamework Blog</title>
         <link>https://flamework.fireboltofdeath.dev/blog</link>
         <description>Flamework Blog</description>
-        <lastBuildDate>Sun, 21 Jan 2024 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Thu, 21 Mar 2024 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>en</language>
+        <item>
+            <title><![CDATA[Flamework v1.2.0]]></title>
+            <link>https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release</link>
+            <guid>https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release</guid>
+            <pubDate>Thu, 21 Mar 2024 00:00:00 GMT</pubDate>
+            <description><![CDATA[Change Log]]></description>
+            <content:encoded><![CDATA[<h2 class="anchor anchorWithStickyNavbar_LWe7" id="change-log">Change Log<a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#change-log" class="hash-link" aria-label="Direct link to Change Log" title="Direct link to Change Log">​</a></h2>
+<p><a href="https://github.com/rbxts-flamework/core/commits/master" target="_blank" rel="noopener noreferrer">@flamework/core</a>
+<a href="https://github.com/rbxts-flamework/components/commits/master" target="_blank" rel="noopener noreferrer">@flamework/components</a>
+<a href="https://github.com/rbxts-flamework/networking/commits/master" target="_blank" rel="noopener noreferrer">@flamework/networking</a>
+<a href="https://github.com/rbxts-flamework/transformer/commits/master" target="_blank" rel="noopener noreferrer">rbxts-transformer-flamework</a></p>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="additions">Additions<a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#additions" class="hash-link" aria-label="Direct link to Additions" title="Direct link to Additions">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="core">Core<a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#core" class="hash-link" aria-label="Direct link to Core" title="Direct link to Core">​</a></h3>
+<ul>
+<li>Fixed the <code>constructor</code> field always being <code>undefined</code> on decorator descriptors.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="networking">Networking<a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#networking" class="hash-link" aria-label="Direct link to Networking" title="Direct link to Networking">​</a></h3>
+<ul>
+<li>Fixed a bug where Flamework would always create both a reliable and unreliable remote.</li>
+</ul>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="transformer">Transformer<a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#transformer" class="hash-link" aria-label="Direct link to Transformer" title="Direct link to Transformer">​</a></h3>
+<ul>
+<li><a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#roblox-ts-decorators">Reflection support for roblox-ts decorators.</a></li>
+<li>Added support for nominal fields in guard generation.<!-- -->
+<ul>
+<li>This means types like <code>string &amp; { _nominal_mynominalfield: never }</code> will become just <code>t.string</code></li>
+</ul>
+</li>
+<li>Fixed bug that triggered a diagnostic when extending a user macro class.</li>
+<li>Fix crash when generating guards with an <code>unknown</code> field.</li>
+</ul>
+<h2 class="anchor anchorWithStickyNavbar_LWe7" id="changes">Changes<a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#changes" class="hash-link" aria-label="Direct link to Changes" title="Direct link to Changes">​</a></h2>
+<h3 class="anchor anchorWithStickyNavbar_LWe7" id="roblox-ts-decorators">roblox-ts decorators<a href="https://flamework.fireboltofdeath.dev/blog/2024/03/21/flamework-release#roblox-ts-decorators" class="hash-link" aria-label="Direct link to roblox-ts decorators" title="Direct link to roblox-ts decorators">​</a></h3>
+<p>Flamework now supports reflection for native roblox-ts decorators, and they can be used in place (or alongside) of Flamework decorators.</p>
+<p>By default, Flamework will ignore roblox-ts decorators but you can specify the <code>@metadata reflect</code> JSDoc to enable Flamework's reflection.
+Unlike Flamework decorators, roblox-ts decorators with the <code>reflect</code> metadata do not automatically generate <em>any</em> metadata, including the <code>identifier</code> metadata, which must be specified manually.</p>
+<div class="language-ts codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_biex"><pre tabindex="0" class="prism-code language-ts codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><span class="token-line" style="color:#393A34"><span class="token doc-comment comment" style="color:#999988;font-style:italic">/** </span><span class="token doc-comment comment keyword" style="color:#00009f;font-style:italic">@metadata</span><span class="token doc-comment comment" style="color:#999988;font-style:italic"> reflect identifier flamework:parameters */</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">const</span><span class="token plain"> </span><span class="token function-variable function" style="color:#d73a49">NewDecorator</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">ctor</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">unknown</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">=&gt;</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">;</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token decorator at operator" style="color:#393A34">@</span><span class="token decorator function" style="color:#d73a49">NewDecorator</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">class</span><span class="token plain"> </span><span class="token class-name">MyClass</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain">	</span><span class="token function" style="color:#d73a49">constructor</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">a</span><span class="token operator" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">string</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></span><span class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><br></span></code></pre><div class="buttonGroup__atx"><button type="button" aria-label="Copy code to clipboard" title="Copy" class="clean-btn"><span class="copyButtonIcons_eSgA" aria-hidden="true"><svg viewBox="0 0 24 24" class="copyButtonIcon_y97N"><path fill="currentColor" d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"></path></svg><svg viewBox="0 0 24 24" class="copyButtonSuccessIcon_LjdS"><path fill="currentColor" d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"></path></svg></span></button></div></div></div>
+<p>As a caveat, you cannot currently use roblox-ts decorators with Flamework's modding API (listeners, <code>getDecorator</code>, <code>getDecorators</code>, <code>getPropertyDecorators</code>, etc.)</p>
+<p>Support for these APIs may be added in a future update but can be implemented fairly easily without Flamework.</p>]]></content:encoded>
+            <category>Release</category>
+        </item>
         <item>
             <title><![CDATA[Flamework v1.1.0]]></title>
             <link>https://flamework.fireboltofdeath.dev/blog/2024/01/21/flamework-release</link>
