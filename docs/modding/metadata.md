@@ -73,6 +73,11 @@ Classes with constructors also support all [method metadata](#method-metadata).
 
 ---
 
+### identifier
+This generates the `identifier` metadata which is a unique identifier that refers specifically to this class.
+
+This is only necessary on roblox-ts decorators as Flamework decorators automatically include this metadata.
+
 ### flamework:implements `string[]`
 :::info
 This metadata is required for lifecycle events. If you want to use lifecycle events, you must request this metadata.
