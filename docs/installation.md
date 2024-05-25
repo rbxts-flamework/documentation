@@ -21,7 +21,7 @@ npm i
 #### Updating Flamework
 Whilst I try to keep the template up to date, sometimes it falls behind either current Flamework versions, current roblox-ts versions or even current Roblox typings.
 
-You can ensure that you're on the latest Flamework and roblox-ts by running the following commands after setting update the template.
+You can ensure that you're on the latest Flamework and roblox-ts by running the following commands after setting up the template.
 
 ```bash
 # Update Flamework
