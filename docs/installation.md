@@ -18,6 +18,19 @@ npx degit rbxts-flamework/template
 npm i
 ```
 
+#### Updating Flamework
+Whilst I try to keep the template up to date, sometimes it falls behind either current Flamework versions, current roblox-ts versions or even current Roblox typings.
+
+You can ensure that you're on the latest Flamework and roblox-ts by running the following commands after setting update the template.
+
+```bash
+# Update Flamework
+npm i rbxts-transformer-flamework@latest @flamework/core@latest @flamework/networking@latest @flamework/components@latest
+
+# Update roblox-ts
+npm i roblox-ts@latest @rbxts/types@latest @rbxts/compiler-types@latest
+```
+
 ### Compiling
 You should use the build scripts to compile your project, otherwise Flamework may not work properly.
 Alternatively, you can use the vscode extension which will start up watch mode for you.
