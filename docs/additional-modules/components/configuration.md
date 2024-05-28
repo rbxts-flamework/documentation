@@ -10,7 +10,7 @@ This only affects Components created via **CollectionService**!
 ```ts
 @Component({
 	tag: "Example",
-	predicate: ( instance ) => instance.FindFirstAncestorOfClass("PlayerGui") !== undefined,
+	predicate: (instance) => instance.FindFirstAncestorOfClass("PlayerGui") !== undefined,
 })
 export class ExampleComponent extends BaseComponent implements OnStart {}
 ```
@@ -94,7 +94,7 @@ interface Attributes {
 @Component({
 	tag: "Example",
 	attributes: {
-		amount: t.numberConstrained( 1, 5 )
+		amount: t.numberConstrained(1, 5)
 	}
 })
 export class ExampleComponent extends BaseComponent<Attributes> implements OnStart {}
