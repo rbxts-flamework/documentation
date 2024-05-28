@@ -52,13 +52,13 @@ You can use the `loadOrder` configuration to override the order that singletons 
 The default `loadOrder` property defaults to `1` and decreasing the `loadOrder` causes the singleton to load earlier.
 
 ```ts
-@Controller( {
-    loadOrder: 0 // Loads BEFORE all other controllers with default loadOrder
+@Controller({
+	loadOrder: 0 // Loads BEFORE all other controllers with default loadOrder
 })
 ```
 
 ```ts
-@Controller( {
-    loadOrder: 2 // Loads AFTER all other controllers with default loadOrder
+@Controller({
+	loadOrder: 2 // Loads AFTER all other controllers with default loadOrder
 })
 ```
