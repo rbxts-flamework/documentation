@@ -57,7 +57,7 @@ function Flamework.createGuard<T>(): t.check<T>;
 ### Description
 Creates a guard for the type parameter `T`.
 
-Guards are generated in a way that mimicks how the type can be used in TypeScript which means generics will resolve to their constraints, (unsimplified) conditionals will resolve to a union between both true/false types, etc.
+Guards are generated in a way that mimics how the type can be used in TypeScript which means generics will resolve to their constraints, (unsimplified) conditionals will resolve to a union between both true/false types, etc.
 
 ### Returns
 The generated guard for type parameter `T`.
