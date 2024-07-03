@@ -1,7 +1,7 @@
 ---
 title: Remote Functions
 ---
-RemoteFunctions are for two way communicates between the server and client. This means the sender is able to receive a response from the receiver.  Flamework's RemoteFunctions implementation use promises which allow you to avoid any dangerous yields, errors, etc. All requests have a timeout of 10 seconds.
+RemoteFunctions are for two way communicates between the server and client. This means the sender is able to receive a response from the receiver. Flamework's RemoteFunctions implementation use promises which allow you to avoid any dangerous yields, errors, etc. All requests have a timeout of 10 seconds.
 
 Whilst it is not recommended, Flamework does support `ServerToClient` remote functions. Flamework avoids common pitfalls by implementing timeouts and cancellation (such as a player leaving) using promises.
 

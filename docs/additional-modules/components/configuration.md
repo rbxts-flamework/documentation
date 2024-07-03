@@ -9,8 +9,8 @@ You can add a `predicate` function to a component to determine if the component 
 This only affects Components created via **CollectionService**!
 ```ts
 @Component({
-    tag: "Example",
-    predicate: ( instance ) => instance.FindFirstAncestorOfClass("PlayerGui") !== undefined,
+	tag: "Example",
+	predicate: (instance) => instance.FindFirstAncestorOfClass("PlayerGui") !== undefined,
 })
 export class ExampleComponent extends BaseComponent implements OnStart {}
 ```
@@ -57,10 +57,10 @@ The `instanceGuard` is similar to `predicate`, but serves a slightly different p
 
 Note: Using `instanceGuard` will override the automatically generated type guard, which is created when providing the `BaseComponent` with an Instance type!
 ```ts
-@Component( {
-    tag: "Example",
-    instanceGuard: Flamework.createGuard<any>()
-} )
+@Component({
+	tag: "Example",
+	instanceGuard: Flamework.createGuard<any>()
+})
 export class ExampleComponent extends BaseComponent<{}, Model> implements OnStart {}
 ```
 
@@ -70,15 +70,15 @@ You can use `defaults` to specify the value of the Component's attributes if the
 Normally, you must assign all the attributes to a Component otherwise it will not be created. If you specify the `defaults` though, the Component can be created without specifying those attributes.
 ```ts
 interface Attributes {
-    amount: number
+	amount: number
 }
 
-@Component( {
-    tag: "Example",
-    defaults: {
-        "amount": 1
-    }
-} )
+@Component({
+	tag: "Example",
+	defaults: {
+		"amount": 1
+	}
+})
 export class ExampleComponent extends BaseComponent<Attributes, Part> implements OnStart {}
 ```
 
@@ -88,15 +88,15 @@ You can use `attributes` to specify custom type guards for attributes defined in
 The example uses the [t package](https://www.npmjs.com/package/@rbxts/t) to specify the value of the `amount` attribute, which should only ever be a number between 1 and 5.
 ```ts
 interface Attributes {
-    amount: number
+	amount: number
 }
 
-@Component( {
-    tag: "Example",
-    attributes: {
-        amount: t.numberConstrained( 1, 5 )
-    }
-} )
+@Component({
+	tag: "Example",
+	attributes: {
+		amount: t.numberConstrained(1, 5)
+	}
+})
 export class ExampleComponent extends BaseComponent<Attributes> implements OnStart {}
 ```
 
@@ -110,13 +110,13 @@ If set to `false`, the Components attributes (`this.attributes.example`) will no
 Note: Setting `refreshAttributes` to false will disable the `onAttributeChanged` handlers!
 ```ts
 interface Attributes {
-    amount: number
+	amount: number
 }
 
-@Component( {
-    tag: "Example",
-    refreshAttributes: false
-} )
+@Component({
+	tag: "Example",
+	refreshAttributes: false
+})
 export class ExampleComponent extends BaseComponent<Attributes, Part> implements OnStart {}
 ```
 
@@ -132,9 +132,9 @@ Ancestor configuration only affects `CollectionService` components and will not 
 
 ```ts
 @Component({
-    tag: "ExampleComponent",
-    ancestorBlacklist: [Lighting],
-    ancestorWhitelist: [Workspace],
+	tag: "ExampleComponent",
+	ancestorBlacklist: [Lighting],
+	ancestorWhitelist: [Workspace],
 })
 export class ExampleComponent extends BaseComponent {}
 ```
@@ -146,13 +146,13 @@ Generally, you will only encounter this warning when something has gone wrong (y
 
 ```ts
 @Component({
-    tag: "ExampleComponent",
+	tag: "ExampleComponent",
 
-    // Disable the warning entirely.
-    warningTimeout: 0,
+	// Disable the warning entirely.
+	warningTimeout: 0,
 
-    // Warn only after 60 seconds have passed.
-    warningTimeout: 60,
+	// Warn only after 60 seconds have passed.
+	warningTimeout: 60,
 })
 export class ExampleComponent extends BaseComponent {}
 ```
