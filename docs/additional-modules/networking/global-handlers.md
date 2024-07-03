@@ -12,7 +12,7 @@ export const GlobalFunctions = Networking.createFunction<S, C>();
 
 
 GlobalEvents.registerHandler("onBadRequest", (player) => print(player, "sent a bad request!"));
-GlobalEvents.registerHandler("onBadResponse", (player) => print(player, "returned a bad response!"));
+GlobalFunctions.registerHandler("onBadResponse", (player) => print(player, "returned a bad response!"));
 
 ```
 
