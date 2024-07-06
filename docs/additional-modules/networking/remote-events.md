@@ -12,12 +12,14 @@ If you want two way communication then you should use [RemoteFunctions](./remote
 ```ts
 import { Networking } from "@flamework/networking";
 
+// testEvent and uselessEvent are the names of the events
 interface ClientToServerEvents {
-	event(param1: string): void;
+	testEvent(param1: string): void;
+	uselessEvent(nothing: string | undefined): void; // we have a parameter that can be a string or undefined, returns void which is nothing
 }
 
 interface ServerToClientEvents {
-	event(param1: string): void;
+	testEvent(param1: string): void;
 }
 
 // Returns an object containing a `server` and `client` field.
@@ -49,34 +51,38 @@ Send a request between the server and client.
 
 #### Server
 ```ts
+// Events.[EVENT NAME]
+
 // Fire to player(s)
-Events.event.fire(player, ...args);
-Events.event.fire([player1, player2], ...args);
+Events.testEvent.fire(player, ...args);
+Events.testEvent.fire([player1, player2], ...args);
 
 // Fire to all players except
-Events.event.except(player, ...args);
-Events.event.except([player1, player2], ...args);
+Events.testEvent.except(player, ...args);
+Events.testEvent.except([player1, player2], ...args);
 
 // Broadcast
-Events.event.broadcast(...args);
+Events.testEvent.broadcast(...args);
 
 // Predict, fires server event using player as the sender
-Events.event.predict(player, ...args);
+Events.testEvent.predict(player, ...args);
 
 // Shorthand syntax, equivalent to Events.event.fire
-Events.event(player, ...args);
+Events.testEvent(player, ...args);
 ```
 
 #### Client
 ```ts
+// Events.[EVENT NAME]
+
 // Fire to server
-Events.event.fire(...args);
+Events.testEvent.fire(...args);
 
 // Predict, fires client event from the client
-Events.event.predict(...args);
+Events.testEvent.predict(...args);
 
 // Shorthand syntax, equivalent to Events.event.fire
-Events.event(...args);
+Events.testEvent(...args);
 ```
 
 ### Connecting
@@ -85,12 +91,14 @@ Connecting to an event returns a RBXScriptConnection which can be used to discon
 The following example is assuming the code is run on the server. Connecting events on the server and client is identical except that clients do not have an additional `player` parameter.
 
 ```ts
+// Events.[EVENT NAME]
+
 // Connect to an event
-Events.event.connect((player, arg1) => {
+Events.testEvent.connect((player, arg1) => {
 	print(player, arg1);
 });
 
 // Disconnect an event connection
-const myConnection = events.event.connect(() => {});
+const myConnection = events.testEvent.connect(() => {});
 myConnection.Disconnect();
 ```
