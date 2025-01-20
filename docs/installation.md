@@ -85,7 +85,7 @@ You'll want to add the following json under your compilerOptions field.
 You'll also need to add the @flamework scope to your typeRoots.
 
 ```json
-typeRoots: ["node_modules/@rbxts", "node_modules/@flamework"]
+"typeRoots": ["node_modules/@rbxts", "node_modules/@flamework"]
 ```
 
 #### Configure default.project.json
