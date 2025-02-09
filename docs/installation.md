@@ -49,7 +49,7 @@ Navigate to the directory that you want to place your project. This can be anywh
 After creating your project folder, you'll want to setup a new roblox-ts project. You can do this by opening command prompt, bash or powershell
 and running the following command.
 ```bash
-npx roblox-ts init game
+npm init roblox-ts game
 ```
 
 The command will ask you several questions about what to setup and you can choose whatever you'd like.
